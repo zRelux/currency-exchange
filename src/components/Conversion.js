@@ -844,6 +844,7 @@ class Converion extends Component {
             conversion: responseData.results[query].val,
             sellrate: responseData.results[query].val
           }));
+console.log(`Converted ${this.state.amount} from ${this.state.from} to ${this.state.to}: ${this.state.result}`);
         })
         .catch(error => {
           this.setState({

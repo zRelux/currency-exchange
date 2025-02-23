@@ -830,7 +830,7 @@ class Converion extends Component {
       });
     } else {
       let query = this.state.from + "_" + this.state.to;
-      fetch("https://free.currencyconverterapi.com/api/v6/convert?q=" + query)
+      fetch(`https://v6.exchangerate-api.com/v6/YOUR_API_KEY/pair/${this.state.from}/${this.state.to}`)
         .then(response => {
           if (response.ok) {
             return response.json();

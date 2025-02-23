@@ -796,7 +796,8 @@ class Converion extends Component {
       error: false,
       result: 0,
       conversion: 0,
-      sellrate: 0
+      sellrate: 0,
+      useCurrencyLayer: false
     };
   }
 
@@ -830,7 +831,8 @@ class Converion extends Component {
       });
     } else {
       let query = this.state.from + "_" + this.state.to;
-      fetch(`https://v6.exchangerate-api.com/v6/YOUR_API_KEY/pair/${this.state.from}/${this.state.to}`)
+      const apiUrl = this.state.useCurrencyLayer ? `http://api.currencylayer.com/live?access_key=YOUR_CURRENCYLAYER_API_KEY&currencies=${this.state.to}&source=${this.state.from}&format=1` : `https://v6.exchangerate-api.com/v6/YOUR_EXCHANGERATE_API_KEY/pair/${this.state.from}/${this.state.to}`;
+      fetch(apiUrl)
         .then(response => {
           if (response.ok) {
             return response.json();

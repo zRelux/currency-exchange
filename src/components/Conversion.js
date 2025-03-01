@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -786,50 +786,53 @@ const currencies = [
   }
 ];
 
-class Converion extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      amount: 1,
-      from: "",
-      to: "",
-      error: false,
-      result: 0,
-      conversion: 0,
-      sellrate: 0
-    };
-  }
+const Converion = (props) => {
+  const { classes } = props;
+  
+  const [state, setState] = useState({
+    amount: 1,
+    from: "",
+    to: "",
+    error: false,
+    result: 0,
+    conversion: 0,
+    sellrate: 0
+  });
 
-  handleChange = name => event => {
-    this.setState({
+  const { from, to, conversion, amount, result, sellrate, error } = state;
+
+  const handleChange = name => event => {
+    setState({
+      ...state,
       [name]: event.target.value,
       result: 0
     });
   };
 
-  change = () => {
-    let from = this.state.from;
-    let to = this.state.to;
-    this.setState({
+  const change = () => {
+    setState({
+      ...state,
       from: to,
       to: from,
       result: 0
     });
   };
 
-  handleRate = () => event => {
-    this.setState({
+  const handleRate = () => event => {
+    setState({
+      ...state,
       sellrate: event.target.value
     });
   };
 
-  exchange = () => {
-    if (this.state.from === "" || this.state.to === "") {
-      this.setState({
+  const exchange = () => {
+    if (from === "" || to === "") {
+      setState({
+        ...state,
         error: true
       });
     } else {
-      let query = this.state.from + "_" + this.state.to;
+      let query = from + "_" + to;
       fetch("https://free.currencyconverterapi.com/api/v6/convert?q=" + query)
         .then(response => {
           if (response.ok) {
@@ -839,14 +842,16 @@ class Converion extends Component {
           }
         })
         .then(responseData => {
-          this.setState(prevState => ({
+          setState(prevState => ({
+            ...prevState,
             result: prevState.amount * responseData.results[query].val,
             conversion: responseData.results[query].val,
             sellrate: responseData.results[query].val
           }));
         })
         .catch(error => {
-          this.setState({
+          setState({
+            ...state,
             series: "There was an internal error retry later."
           });
           console.error(error);
@@ -854,181 +859,178 @@ class Converion extends Component {
     }
   };
 
-  handleClose = (event, reason) => {
+  const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
 
-    this.setState({ error: false });
+    setState({ ...state, error: false });
   };
 
-  render() {
-    const { classes } = this.props;
-    const { from, to, conversion, amount, result, sellrate } = this.state;
+  let srate = (conversion / sellrate - 1) * 1000;
+  srate = Math.floor(srate * 100) / 100;
+  let money = amount * sellrate;
 
-    let srate = (conversion / sellrate - 1) * 1000;
-    srate = Math.floor(srate * 100) / 100;
-    let money = amount * sellrate;
+  let risultato =
+    result !== 0 ? (
+      <Fragment>
+        <Typography variant="subtitle1" align="center">
+          Current conversion for{" "}
+          <span className={classes.body2Bold}>
+            {from} - {to}
+          </span>{" "}
+          is <span className={classes.body2Bold}>{conversion}</span> so for{" "}
+          <span className={classes.body2Bold}>
+            {from} {amount} you get {to} {result}
+          </span>
+        </Typography>
 
-    let risultato =
-      this.state.result !== 0 ? (
-        <Fragment>
-          <Typography variant="subtitle1" align="center">
-            Current conversion for{" "}
-            <span className={classes.body2Bold}>
-              {from} - {to}
-            </span>{" "}
-            is <span className={classes.body2Bold}>{conversion}</span> so for{" "}
-            <span className={classes.body2Bold}>
-              {from} {amount} you get {to} {result}
-            </span>
+        <div>
+          <Typography
+            variant="subtitle1"
+            align="center"
+            className={classes.margin}
+          >
+            if you want to check if sell rate is good enter here:
           </Typography>
-
-          <div>
-            <Typography
-              variant="subtitle1"
-              align="center"
-              className={classes.margin}
-            >
-              if you want to check if sell rate is good enter here:
+          <Grid container spacing={24} alignItems="center" justify="center">
+            <Grid item>
+              <TextField
+                value={sellrate}
+                id="standard-number"
+                label={"Sell rate of " + to + " to " + from}
+                type="number"
+                InputProps={{ inputProps: { min: 0.01 } }}
+                onChange={handleRate()}
+                className={classes.textField}
+              />
+            </Grid>
+            <Grid item>
+              {srate >= 0 && srate < 4 ? (
+                <Typography variant="subtitle1" align="center">
+                  <span className={classes.good}>{srate}%</span> you should
+                  get <span className={classes.body2Bold}>{money}</span>{" "}
+                  instead of{" "}
+                  <span className={classes.body2Bold}>{result}</span>
+                </Typography>
+              ) : srate >= 4 && srate < 10 ? (
+                <Typography variant="subtitle1" align="center">
+                  <span className={classes.acc}>{srate}%</span> you should get{" "}
+                  <span className={classes.body2Bold}>{money}</span> instead
+                  of <span className={classes.body2Bold}>{result}</span>
+                </Typography>
+              ) : (
+                <Typography variant="subtitle1" align="center">
+                  <span className={classes.bad}>{srate}%</span> you should get{" "}
+                  <span className={classes.body2Bold}>{money}</span> instead
+                  of <span className={classes.body2Bold}>{result}</span>
+                </Typography>
+              )}
+            </Grid>
+          </Grid>
+        </div>
+      </Fragment>
+    ) : null;
+  
+  return (
+    <Fragment>
+      <Toast
+        message="Need to set both currencies"
+        type="error"
+        open={error}
+        handleClose={handleClose}
+      />
+      <div className={classes.root}>
+        <AppBar position="static" color="default">
+          <Toolbar>
+            <Typography variant="h6" color="inherit">
+              How much do I get?
             </Typography>
-            <Grid container spacing={24} alignItems="center" justify="center">
+          </Toolbar>
+        </AppBar>
+        <div className={classes.container}>
+          <Paper className={classes.paper} elevation={1}>
+            <Typography variant="h5" component="h3">
+              Let us help you figure out how much money you get from the
+              exchange point
+            </Typography>
+            <Grid container spacing={24}>
               <Grid item>
                 <TextField
-                  value={sellrate}
+                  value={amount}
                   id="standard-number"
-                  label={"Sell rate of " + to + " to " + from}
+                  label="Amount"
                   type="number"
                   InputProps={{ inputProps: { min: 0.01 } }}
-                  onChange={this.handleRate()}
+                  onChange={handleChange("amount")}
                   className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  margin="normal"
                 />
               </Grid>
               <Grid item>
-                {srate >= 0 && srate < 4 ? (
-                  <Typography variant="subtitle1" align="center">
-                    <span className={classes.good}>{srate}%</span> you should
-                    get <span className={classes.body2Bold}>{money}</span>{" "}
-                    instead of{" "}
-                    <span className={classes.body2Bold}>{result}</span>
-                  </Typography>
-                ) : srate >= 4 && srate < 10 ? (
-                  <Typography variant="subtitle1" align="center">
-                    <span className={classes.acc}>{srate}%</span> you should get{" "}
-                    <span className={classes.body2Bold}>{money}</span> instead
-                    of <span className={classes.body2Bold}>{result}</span>
-                  </Typography>
-                ) : (
-                  <Typography variant="subtitle1" align="center">
-                    <span className={classes.bad}>{srate}%</span> you should get{" "}
-                    <span className={classes.body2Bold}>{money}</span> instead
-                    of <span className={classes.body2Bold}>{result}</span>
-                  </Typography>
-                )}
+                <TextField
+                  id="standard-select-currency"
+                  select
+                  label="Select"
+                  value={from}
+                  onChange={handleChange("from")}
+                  className={classes.textField}
+                  helperText="Please select your currency"
+                  margin="normal"
+                >
+                  {currencies.map(option => (
+                    <MenuItem key={option.id} value={option.id}>
+                      {option.id} - {option.currencyName}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item className={classes.button}>
+                <IconButton
+                  className={classes.button}
+                  aria-label="Change"
+                  onClick={change}
+                >
+                  <ChangeIcon />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="standard-select-currency"
+                  select
+                  label="Select"
+                  value={to}
+                  onChange={handleChange("to")}
+                  className={classes.textField}
+                  helperText="Please select your currency"
+                  margin="normal"
+                >
+                  {currencies.map(option => (
+                    <MenuItem key={option.id} value={option.id}>
+                      {option.id} - {option.currencyName}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item className={classes.button}>
+                <IconButton
+                  className={classes.button}
+                  aria-label="Change"
+                  onClick={exchange}
+                >
+                  <ArrowIcon />
+                </IconButton>
               </Grid>
             </Grid>
-          </div>
-        </Fragment>
-      ) : null;
-    return (
-      <Fragment>
-        <Toast
-          message="Need to set both currencies"
-          type="error"
-          open={this.state.error}
-          handleClose={() => this.handleClose()}
-        />
-        <div className={classes.root}>
-          <AppBar position="static" color="default">
-            <Toolbar>
-              <Typography variant="h6" color="inherit">
-                How much do I get?
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <div className={classes.container}>
-            <Paper className={classes.paper} elevation={1}>
-              <Typography variant="h5" component="h3">
-                Let us help you figure out how much money you get from the
-                exchange point
-              </Typography>
-              <Grid container spacing={24}>
-                <Grid item>
-                  <TextField
-                    value={amount}
-                    id="standard-number"
-                    label="Amount"
-                    type="number"
-                    InputProps={{ inputProps: { min: 0.01 } }}
-                    onChange={this.handleChange("amount")}
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    margin="normal"
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    id="standard-select-currency"
-                    select
-                    label="Select"
-                    value={from}
-                    onChange={this.handleChange("from")}
-                    className={classes.textField}
-                    helperText="Please select your currency"
-                    margin="normal"
-                  >
-                    {currencies.map(option => (
-                      <MenuItem key={option.id} value={option.id}>
-                        {option.id} - {option.currencyName}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid>
-                <Grid item className={classes.button}>
-                  <IconButton
-                    className={classes.button}
-                    aria-label="Change"
-                    onClick={() => this.change()}
-                  >
-                    <ChangeIcon />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <TextField
-                    id="standard-select-currency"
-                    select
-                    label="Select"
-                    value={to}
-                    onChange={this.handleChange("to")}
-                    className={classes.textField}
-                    helperText="Please select your currency"
-                    margin="normal"
-                  >
-                    {currencies.map(option => (
-                      <MenuItem key={option.id} value={option.id}>
-                        {option.id} - {option.currencyName}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid>
-                <Grid item className={classes.button}>
-                  <IconButton
-                    className={classes.button}
-                    aria-label="Change"
-                    onClick={() => this.exchange()}
-                  >
-                    <ArrowIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
-              {risultato}
-            </Paper>
-          </div>
+            {risultato}
+          </Paper>
         </div>
-      </Fragment>
-    );
-  }
-}
+      </div>
+    </Fragment>
+  );
+};
+
 export default withStyles(styles, { withTheme: true })(Converion);

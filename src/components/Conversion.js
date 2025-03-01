@@ -9,8 +9,10 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import ChangeIcon from "@material-ui/icons/CompareArrows";
 import ArrowIcon from "@material-ui/icons/ArrowForward";
+import InfoIcon from "@material-ui/icons/Info";
 
 import Toast from "./Toast";
 
@@ -49,6 +51,10 @@ const styles = theme => ({
   },
   margin: {
     marginBottom: 24
+  },
+  ratesButton: {
+    marginTop: 16,
+    marginBottom: 16
   }
 });
 
@@ -796,10 +802,12 @@ const Converion = (props) => {
     error: false,
     result: 0,
     conversion: 0,
-    sellrate: 0
+    sellrate: 0,
+    showRates: false,
+    allRates: {}
   });
 
-  const { from, to, conversion, amount, result, sellrate, error } = state;
+  const { from, to, conversion, amount, result, sellrate, error, showRates, allRates } = state;
 
   const handleChange = name => event => {
     setState({
@@ -847,6 +855,42 @@ const Converion = (props) => {
               result: prevState.amount * responseData.result,
               conversion: responseData.result,
               sellrate: responseData.result
+            }));
+          } else {
+            throw new Error("API returned unsuccessful response");
+          }
+        })
+        .catch(error => {
+          setState({
+            ...state,
+            series: "There was an internal error retry later."
+          });
+          console.error(error);
+        });
+    }
+  };
+
+  const showCurrencyRates = () => {
+    if (from === "") {
+      setState({
+        ...state,
+        error: true
+      });
+    } else {
+      fetch(`https://api.exchangerate.host/latest?base=${from}`)
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Something went wrong");
+          }
+        })
+        .then(responseData => {
+          if (responseData.success) {
+            setState(prevState => ({
+              ...prevState,
+              showRates: true,
+              allRates: responseData.rates
             }));
           } else {
             throw new Error("API returned unsuccessful response");
@@ -934,6 +978,25 @@ const Converion = (props) => {
         </div>
       </Fragment>
     ) : null;
+  
+  let ratesResult = showRates && Object.keys(allRates).length > 0 ? (
+    <div>
+      <Typography variant="h6" align="center" className={classes.margin}>
+        Tassi di cambio per {from}
+      </Typography>
+      <Grid container spacing={24} justify="center">
+        {Object.entries(allRates)
+          .sort((a, b) => a[0].localeCompare(b[0]))
+          .map(([currency, rate]) => (
+            <Grid item xs={6} sm={4} md={3} key={currency}>
+              <Typography variant="body1">
+                {currency}: {rate.toFixed(4)}
+              </Typography>
+            </Grid>
+          ))}
+      </Grid>
+    </div>
+  ) : null;
   
   return (
     <Fragment>
@@ -1028,7 +1091,21 @@ const Converion = (props) => {
                 </IconButton>
               </Grid>
             </Grid>
+            
+            <Grid container justify="center">
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.ratesButton}
+                onClick={showCurrencyRates}
+                startIcon={<InfoIcon />}
+              >
+                Mostra tassi di cambio
+              </Button>
+            </Grid>
+            
             {risultato}
+            {ratesResult}
           </Paper>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 /*
   Material UI imports
  */
@@ -26,16 +26,15 @@ const theme = createMuiTheme({
   }
 });
 
-class App extends Component {
-  render() {
-    return (
-      <Fragment>
-        <CssBaseline />
-        <MuiThemeProvider theme={theme}>
-          <Converion />
-        </MuiThemeProvider>
-      </Fragment>
-    );
-  }
-}
+const App = () => {
+  return (
+    <Fragment>
+      <CssBaseline />
+      <MuiThemeProvider theme={theme}>
+        <Converion />
+      </MuiThemeProvider>
+    </Fragment>
+  );
+};
+
 export default App;

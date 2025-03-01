@@ -832,8 +832,7 @@ const Converion = (props) => {
         error: true
       });
     } else {
-      let query = from + "_" + to;
-      fetch("https://free.currencyconverterapi.com/api/v6/convert?q=" + query)
+      fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}`)
         .then(response => {
           if (response.ok) {
             return response.json();
@@ -842,12 +841,16 @@ const Converion = (props) => {
           }
         })
         .then(responseData => {
-          setState(prevState => ({
-            ...prevState,
-            result: prevState.amount * responseData.results[query].val,
-            conversion: responseData.results[query].val,
-            sellrate: responseData.results[query].val
-          }));
+          if (responseData.success) {
+            setState(prevState => ({
+              ...prevState,
+              result: prevState.amount * responseData.result,
+              conversion: responseData.result,
+              sellrate: responseData.result
+            }));
+          } else {
+            throw new Error("API returned unsuccessful response");
+          }
         })
         .catch(error => {
           setState({

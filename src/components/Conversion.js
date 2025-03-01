@@ -878,13 +878,13 @@ const Converion = (props) => {
     result !== 0 ? (
       <Fragment>
         <Typography variant="subtitle1" align="center">
-          Current conversion for{" "}
+          Conversione attuale per{" "}
           <span className={classes.body2Bold}>
             {from} - {to}
           </span>{" "}
-          is <span className={classes.body2Bold}>{conversion}</span> so for{" "}
+          è <span className={classes.body2Bold}>{conversion}</span> quindi per{" "}
           <span className={classes.body2Bold}>
-            {from} {amount} you get {to} {result}
+            {from} {amount} ricevi {to} {result}
           </span>
         </Typography>
 
@@ -894,14 +894,14 @@ const Converion = (props) => {
             align="center"
             className={classes.margin}
           >
-            if you want to check if sell rate is good enter here:
+            se vuoi verificare se il tasso di vendita è buono inserisci qui:
           </Typography>
           <Grid container spacing={24} alignItems="center" justify="center">
             <Grid item>
               <TextField
                 value={sellrate}
                 id="standard-number"
-                label={"Sell rate of " + to + " to " + from}
+                label={"Tasso di vendita di " + to + " a " + from}
                 type="number"
                 InputProps={{ inputProps: { min: 0.01 } }}
                 onChange={handleRate()}
@@ -911,22 +911,22 @@ const Converion = (props) => {
             <Grid item>
               {srate >= 0 && srate < 4 ? (
                 <Typography variant="subtitle1" align="center">
-                  <span className={classes.good}>{srate}%</span> you should
-                  get <span className={classes.body2Bold}>{money}</span>{" "}
-                  instead of{" "}
+                  <span className={classes.good}>{srate}%</span> dovresti
+                  ricevere <span className={classes.body2Bold}>{money}</span>{" "}
+                  invece di{" "}
                   <span className={classes.body2Bold}>{result}</span>
                 </Typography>
               ) : srate >= 4 && srate < 10 ? (
                 <Typography variant="subtitle1" align="center">
-                  <span className={classes.acc}>{srate}%</span> you should get{" "}
-                  <span className={classes.body2Bold}>{money}</span> instead
-                  of <span className={classes.body2Bold}>{result}</span>
+                  <span className={classes.acc}>{srate}%</span> dovresti ricevere{" "}
+                  <span className={classes.body2Bold}>{money}</span> invece
+                  di <span className={classes.body2Bold}>{result}</span>
                 </Typography>
               ) : (
                 <Typography variant="subtitle1" align="center">
-                  <span className={classes.bad}>{srate}%</span> you should get{" "}
-                  <span className={classes.body2Bold}>{money}</span> instead
-                  of <span className={classes.body2Bold}>{result}</span>
+                  <span className={classes.bad}>{srate}%</span> dovresti ricevere{" "}
+                  <span className={classes.body2Bold}>{money}</span> invece
+                  di <span className={classes.body2Bold}>{result}</span>
                 </Typography>
               )}
             </Grid>
@@ -938,7 +938,7 @@ const Converion = (props) => {
   return (
     <Fragment>
       <Toast
-        message="Need to set both currencies"
+        message="È necessario impostare entrambe le valute"
         type="error"
         open={error}
         handleClose={handleClose}
@@ -947,22 +947,22 @@ const Converion = (props) => {
         <AppBar position="static" color="default">
           <Toolbar>
             <Typography variant="h6" color="inherit">
-              How much do I get?
+              Quanto ricevo?
             </Typography>
           </Toolbar>
         </AppBar>
         <div className={classes.container}>
           <Paper className={classes.paper} elevation={1}>
             <Typography variant="h5" component="h3">
-              Let us help you figure out how much money you get from the
-              exchange point
+              Ti aiutiamo a capire quanti soldi ricevi dal
+              punto di cambio
             </Typography>
             <Grid container spacing={24}>
               <Grid item>
                 <TextField
                   value={amount}
                   id="standard-number"
-                  label="Amount"
+                  label="Importo"
                   type="number"
                   InputProps={{ inputProps: { min: 0.01 } }}
                   onChange={handleChange("amount")}
@@ -977,11 +977,11 @@ const Converion = (props) => {
                 <TextField
                   id="standard-select-currency"
                   select
-                  label="Select"
+                  label="Seleziona"
                   value={from}
                   onChange={handleChange("from")}
                   className={classes.textField}
-                  helperText="Please select your currency"
+                  helperText="Seleziona la tua valuta"
                   margin="normal"
                 >
                   {currencies.map(option => (
@@ -1004,11 +1004,11 @@ const Converion = (props) => {
                 <TextField
                   id="standard-select-currency"
                   select
-                  label="Select"
+                  label="Seleziona"
                   value={to}
                   onChange={handleChange("to")}
                   className={classes.textField}
-                  helperText="Please select your currency"
+                  helperText="Seleziona la tua valuta"
                   margin="normal"
                 >
                   {currencies.map(option => (

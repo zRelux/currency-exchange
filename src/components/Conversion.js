@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from "react";
-
+import React, { Fragment, useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -55,7 +54,7 @@ const styles = theme => ({
 const currencies = [
   {
     currencyName: "British Pound",
-    currencySymbol: "£",
+    currencySymbol: "\u00a3",
     id: "GBP"
   },
   {
@@ -65,7 +64,7 @@ const currencies = [
   },
   {
     currencyName: "Euro",
-    currencySymbol: "€",
+    currencySymbol: "\u20ac",
     id: "EUR"
   },
   {
@@ -75,7 +74,7 @@ const currencies = [
   },
   {
     currencyName: "Japanese Yen",
-    currencySymbol: "¥",
+    currencySymbol: "\u00a5",
     id: "JPY"
   },
   {
@@ -88,7 +87,6 @@ const currencies = [
     currencySymbol: "$",
     id: "XCD"
   },
-
   {
     currencyName: "Barbadian Dollar",
     currencySymbol: "$",
@@ -114,12 +112,12 @@ const currencies = [
   },
   {
     currencyName: "Falkland Islands Pound",
-    currencySymbol: "£",
+    currencySymbol: "\u00a3",
     id: "FKP"
   },
   {
     currencyName: "Gibraltar Pound",
-    currencySymbol: "£",
+    currencySymbol: "\u00a3",
     id: "GIP"
   },
   {
@@ -129,7 +127,7 @@ const currencies = [
   },
   {
     currencyName: "Iranian Rial",
-    currencySymbol: "﷼",
+    currencySymbol: "\ufdfc",
     id: "IRR"
   },
   {
@@ -144,7 +142,7 @@ const currencies = [
   },
   {
     currencyName: "Lao Kip",
-    currencySymbol: "₭",
+    currencySymbol: "\u20ad",
     id: "LAK"
   },
   {
@@ -153,7 +151,7 @@ const currencies = [
   },
   {
     currencyName: "Macedonian Denar",
-    currencySymbol: "ден",
+    currencySymbol: "\u0434\u0435\u043d",
     id: "MKD"
   },
   {
@@ -167,7 +165,7 @@ const currencies = [
   },
   {
     currencyName: "Omani Rial",
-    currencySymbol: "﷼",
+    currencySymbol: "\ufdfc",
     id: "OMR"
   },
   {
@@ -184,7 +182,7 @@ const currencies = [
   },
   {
     currencyName: "Serbian Dinar",
-    currencySymbol: "Дин.",
+    currencySymbol: "\u0414\u0438\u043d.",
     id: "RSD"
   },
   {
@@ -217,17 +215,17 @@ const currencies = [
   },
   {
     currencyName: "Chinese Yuan",
-    currencySymbol: "¥",
+    currencySymbol: "\u00a5",
     id: "CNY"
   },
   {
     currencyName: "Costa Rican Colon",
-    currencySymbol: "₡",
+    currencySymbol: "\u20a1",
     id: "CRC"
   },
   {
     currencyName: "Czech Koruna",
-    currencySymbol: "Kč",
+    currencySymbol: "K\u010d",
     id: "CZK"
   },
   {
@@ -244,7 +242,7 @@ const currencies = [
   },
   {
     currencyName: "Indian Rupee",
-    currencySymbol: "₹",
+    currencySymbol: "\u20b9",
     id: "INR"
   },
   {
@@ -253,12 +251,12 @@ const currencies = [
   },
   {
     currencyName: "South Korean Won",
-    currencySymbol: "₩",
+    currencySymbol: "\u20a9",
     id: "KRW"
   },
   {
     currencyName: "Lebanese Lira",
-    currencySymbol: "£",
+    currencySymbol: "\u00a3",
     id: "LBP"
   },
   {
@@ -275,7 +273,7 @@ const currencies = [
   },
   {
     currencyName: "Netherlands Antillean Gulden",
-    currencySymbol: "ƒ",
+    currencySymbol: "\u0192",
     id: "ANG"
   },
   {
@@ -285,7 +283,7 @@ const currencies = [
   },
   {
     currencyName: "Qatari Riyal",
-    currencySymbol: "﷼",
+    currencySymbol: "\ufdfc",
     id: "QAR"
   },
   {
@@ -307,7 +305,7 @@ const currencies = [
   },
   {
     currencyName: "Syrian Pound",
-    currencySymbol: "£",
+    currencySymbol: "\u00a3",
     id: "SYP"
   },
   {
@@ -316,7 +314,7 @@ const currencies = [
   },
   {
     currencyName: "Aruban Florin",
-    currencySymbol: "ƒ",
+    currencySymbol: "\u0192",
     id: "AWG"
   },
   {
@@ -369,12 +367,12 @@ const currencies = [
   },
   {
     currencyName: "Israeli New Sheqel",
-    currencySymbol: "₪",
+    currencySymbol: "\u20aa",
     id: "ILS"
   },
   {
     currencyName: "Kazakhstani Tenge",
-    currencySymbol: "лв",
+    currencySymbol: "\u043b\u0432",
     id: "KZT"
   },
   {
@@ -392,12 +390,12 @@ const currencies = [
   },
   {
     currencyName: "Mauritian Rupee",
-    currencySymbol: "₨",
+    currencySymbol: "\u20a8",
     id: "MUR"
   },
   {
     currencyName: "Mongolian Tugrik",
-    currencySymbol: "₮",
+    currencySymbol: "\u20ae",
     id: "MNT"
   },
   {
@@ -406,7 +404,7 @@ const currencies = [
   },
   {
     currencyName: "Nigerian Naira",
-    currencySymbol: "₦",
+    currencySymbol: "\u20a6",
     id: "NGN"
   },
   {
@@ -416,7 +414,7 @@ const currencies = [
   },
   {
     currencyName: "Philippine Peso",
-    currencySymbol: "₱",
+    currencySymbol: "\u20b1",
     id: "PHP"
   },
   {
@@ -426,7 +424,7 @@ const currencies = [
   },
   {
     currencyName: "Saudi Riyal",
-    currencySymbol: "﷼",
+    currencySymbol: "\ufdfc",
     id: "SAR"
   },
   {
@@ -468,7 +466,7 @@ const currencies = [
   },
   {
     currencyName: "Azerbaijani Manat",
-    currencySymbol: "ман",
+    currencySymbol: "\u043c\u0430\u043d",
     id: "AZN"
   },
   {
@@ -483,10 +481,9 @@ const currencies = [
   },
   {
     currencyName: "Bulgarian Lev",
-    currencySymbol: "лв",
+    currencySymbol: "\u043b\u0432",
     id: "BGN"
   },
-
   {
     currencyName: "Chilean Peso",
     currencySymbol: "$",
@@ -516,7 +513,7 @@ const currencies = [
     id: "GYD"
   },
   {
-    currencyName: "Icelandic Króna",
+    currencyName: "Icelandic Kr\u00f3na",
     currencySymbol: "kr",
     id: "ISK"
   },
@@ -524,10 +521,9 @@ const currencies = [
     currencyName: "Iraqi Dinar",
     id: "IQD"
   },
-
   {
     currencyName: "North Korean Won",
-    currencySymbol: "₩",
+    currencySymbol: "\u20a9",
     id: "KPW"
   },
   {
@@ -554,7 +550,7 @@ const currencies = [
   },
   {
     currencyName: "Nepalese Rupee",
-    currencySymbol: "₨",
+    currencySymbol: "\u20a8",
     id: "NPR"
   },
   {
@@ -564,7 +560,7 @@ const currencies = [
   },
   {
     currencyName: "Pakistani Rupee",
-    currencySymbol: "₨",
+    currencySymbol: "\u20a8",
     id: "PKR"
   },
   {
@@ -574,12 +570,12 @@ const currencies = [
   },
   {
     currencyName: "Saint Helena Pound",
-    currencySymbol: "£",
+    currencySymbol: "\u00a3",
     id: "SHP"
   },
   {
     currencyName: "Seychellois Rupee",
-    currencySymbol: "₨",
+    currencySymbol: "\u20a8",
     id: "SCR"
   },
   {
@@ -589,12 +585,12 @@ const currencies = [
   },
   {
     currencyName: "Sri Lankan Rupee",
-    currencySymbol: "₨",
+    currencySymbol: "\u20a8",
     id: "LKR"
   },
   {
     currencyName: "Thai Baht",
-    currencySymbol: "฿",
+    currencySymbol: "\u0e3f",
     id: "THB"
   },
   {
@@ -611,12 +607,12 @@ const currencies = [
   },
   {
     currencyName: "Yemeni Rial",
-    currencySymbol: "﷼",
+    currencySymbol: "\ufdfc",
     id: "YER"
   },
   {
     currencyName: "Afghan Afghani",
-    currencySymbol: "؋",
+    currencySymbol: "\u060b",
     id: "AFN"
   },
   {
@@ -630,7 +626,7 @@ const currencies = [
   },
   {
     currencyName: "Cambodian Riel",
-    currencySymbol: "៛",
+    currencySymbol: "\u17db",
     id: "KHR"
   },
   {
@@ -648,7 +644,7 @@ const currencies = [
   },
   {
     currencyName: "Egyptian Pound",
-    currencySymbol: "£",
+    currencySymbol: "\u00a3",
     id: "EGP"
   },
   {
@@ -683,7 +679,7 @@ const currencies = [
   },
   {
     currencyName: "Kyrgyzstani Som",
-    currencySymbol: "лв",
+    currencySymbol: "\u043b\u0432",
     id: "KGS"
   },
   {
@@ -716,12 +712,12 @@ const currencies = [
   },
   {
     currencyName: "Polish Zloty",
-    currencySymbol: "zł",
+    currencySymbol: "z\u0142",
     id: "PLN"
   },
   {
     currencyName: "Russian Ruble",
-    currencySymbol: "руб",
+    currencySymbol: "\u0440\u0443\u0431",
     id: "RUB"
   },
   {
@@ -749,7 +745,7 @@ const currencies = [
   },
   {
     currencyName: "Vietnamese Dong",
-    currencySymbol: "₫",
+    currencySymbol: "\u20ab",
     id: "VND"
   },
   {
@@ -758,12 +754,12 @@ const currencies = [
   },
   {
     currencyName: "Ukrainian Hryvnia",
-    currencySymbol: "₴",
+    currencySymbol: "\u20b4",
     id: "UAH"
   },
   {
     currencyName: "Uzbekistani Som",
-    currencySymbol: "лв",
+    currencySymbol: "\u043b\u0432",
     id: "UZS"
   },
   {
@@ -786,50 +782,38 @@ const currencies = [
   }
 ];
 
-class Converion extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      amount: 1,
-      from: "",
-      to: "",
-      error: false,
-      result: 0,
-      conversion: 0,
-      sellrate: 0
-    };
-  }
+function Conversion(props) {
+  const { classes } = props;
+  const [amount, setAmount] = useState(1);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [error, setError] = useState(false);
+  const [result, setResult] = useState(0);
+  const [conversion, setConversion] = useState(0);
+  const [sellrate, setSellrate] = useState(0);
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-      result: 0
-    });
+  const handleChange = name => event => {
+    if (name === "amount") setAmount(event.target.value);
+    if (name === "from") setFrom(event.target.value);
+    if (name === "to") setTo(event.target.value);
+    setResult(0);
   };
 
-  change = () => {
-    let from = this.state.from;
-    let to = this.state.to;
-    this.setState({
-      from: to,
-      to: from,
-      result: 0
-    });
+  const change = () => {
+    setFrom(to);
+    setTo(from);
+    setResult(0);
   };
 
-  handleRate = () => event => {
-    this.setState({
-      sellrate: event.target.value
-    });
+  const handleRate = () => event => {
+    setSellrate(event.target.value);
   };
 
-  exchange = () => {
-    if (this.state.from === "" || this.state.to === "") {
-      this.setState({
-        error: true
-      });
+  const exchange = () => {
+    if (from === "" || to === "") {
+      setError(true);
     } else {
-      let query = this.state.from + "_" + this.state.to;
+      let query = from + "_" + to;
       fetch("https://free.currencyconverterapi.com/api/v6/convert?q=" + query)
         .then(response => {
           if (response.ok) {
@@ -839,196 +823,188 @@ class Converion extends Component {
           }
         })
         .then(responseData => {
-          this.setState(prevState => ({
-            result: prevState.amount * responseData.results[query].val,
-            conversion: responseData.results[query].val,
-            sellrate: responseData.results[query].val
-          }));
+          setResult(amount * responseData.results[query].val);
+          setConversion(responseData.results[query].val);
+          setSellrate(responseData.results[query].val);
         })
         .catch(error => {
-          this.setState({
-            series: "There was an internal error retry later."
-          });
+          // Optionally handle error state
           console.error(error);
         });
     }
   };
 
-  handleClose = (event, reason) => {
+  const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
-    this.setState({ error: false });
+    setError(false);
   };
 
-  render() {
-    const { classes } = this.props;
-    const { from, to, conversion, amount, result, sellrate } = this.state;
+  let srate = (conversion / sellrate - 1) * 1000;
+  srate = Math.floor(srate * 100) / 100;
+  let money = amount * sellrate;
 
-    let srate = (conversion / sellrate - 1) * 1000;
-    srate = Math.floor(srate * 100) / 100;
-    let money = amount * sellrate;
+  let risultato =
+    result !== 0 ? (
+      <Fragment>
+        <Typography variant="subtitle1" align="center">
+          Current conversion for{" "}
+          <span className={classes.body2Bold}>
+            {from} - {to}
+          </span>{" "}
+          is <span className={classes.body2Bold}>{conversion}</span> so for{" "}
+          <span className={classes.body2Bold}>
+            {from} {amount} you get {to} {result}
+          </span>
+        </Typography>
 
-    let risultato =
-      this.state.result !== 0 ? (
-        <Fragment>
-          <Typography variant="subtitle1" align="center">
-            Current conversion for{" "}
-            <span className={classes.body2Bold}>
-              {from} - {to}
-            </span>{" "}
-            is <span className={classes.body2Bold}>{conversion}</span> so for{" "}
-            <span className={classes.body2Bold}>
-              {from} {amount} you get {to} {result}
-            </span>
+        <div>
+          <Typography
+            variant="subtitle1"
+            align="center"
+            className={classes.margin}
+          >
+            if you want to check if sell rate is good enter here:
           </Typography>
+          <Grid container spacing={24} alignItems="center" justify="center">
+            <Grid item>
+              <TextField
+                value={sellrate}
+                id="standard-number"
+                label={"Sell rate of " + to + " to " + from}
+                type="number"
+                InputProps={{ inputProps: { min: 0.01 } }}
+                onChange={handleRate()}
+                className={classes.textField}
+              />
+            </Grid>
+            <Grid item>
+              {srate >= 0 && srate < 4 ? (
+                <Typography variant="subtitle1" align="center">
+                  <span className={classes.good}>{srate}%</span> you should
+                  get <span className={classes.body2Bold}>{money}</span>{" "}
+                  instead of{" "}
+                  <span className={classes.body2Bold}>{result}</span>
+                </Typography>
+              ) : srate >= 4 && srate < 10 ? (
+                <Typography variant="subtitle1" align="center">
+                  <span className={classes.acc}>{srate}%</span> you should get{" "}
+                  <span className={classes.body2Bold}>{money}</span> instead
+                  of <span className={classes.body2Bold}>{result}</span>
+                </Typography>
+              ) : (
+                <Typography variant="subtitle1" align="center">
+                  <span className={classes.bad}>{srate}%</span> you should get{" "}
+                  <span className={classes.body2Bold}>{money}</span> instead
+                  of <span className={classes.body2Bold}>{result}</span>
+                </Typography>
+              )}
+            </Grid>
+          </Grid>
+        </div>
+      </Fragment>
+    ) : null;
 
-          <div>
-            <Typography
-              variant="subtitle1"
-              align="center"
-              className={classes.margin}
-            >
-              if you want to check if sell rate is good enter here:
+  return (
+    <Fragment>
+      <Toast
+        message="Need to set both currencies"
+        type="error"
+        open={error}
+        handleClose={handleClose}
+      />
+      <div className={classes.root}>
+        <AppBar position="static" color="default">
+          <Toolbar>
+            <Typography variant="h6" color="inherit">
+              How much do I get?
             </Typography>
-            <Grid container spacing={24} alignItems="center" justify="center">
+          </Toolbar>
+        </AppBar>
+        <div className={classes.container}>
+          <Paper className={classes.paper} elevation={1}>
+            <Typography variant="h5" component="h3">
+              Let us help you figure out how much money you get from the
+              exchange point
+            </Typography>
+            <Grid container spacing={24}>
               <Grid item>
                 <TextField
-                  value={sellrate}
+                  value={amount}
                   id="standard-number"
-                  label={"Sell rate of " + to + " to " + from}
+                  label="Amount"
                   type="number"
                   InputProps={{ inputProps: { min: 0.01 } }}
-                  onChange={this.handleRate()}
+                  onChange={handleChange("amount")}
                   className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  margin="normal"
                 />
               </Grid>
               <Grid item>
-                {srate >= 0 && srate < 4 ? (
-                  <Typography variant="subtitle1" align="center">
-                    <span className={classes.good}>{srate}%</span> you should
-                    get <span className={classes.body2Bold}>{money}</span>{" "}
-                    instead of{" "}
-                    <span className={classes.body2Bold}>{result}</span>
-                  </Typography>
-                ) : srate >= 4 && srate < 10 ? (
-                  <Typography variant="subtitle1" align="center">
-                    <span className={classes.acc}>{srate}%</span> you should get{" "}
-                    <span className={classes.body2Bold}>{money}</span> instead
-                    of <span className={classes.body2Bold}>{result}</span>
-                  </Typography>
-                ) : (
-                  <Typography variant="subtitle1" align="center">
-                    <span className={classes.bad}>{srate}%</span> you should get{" "}
-                    <span className={classes.body2Bold}>{money}</span> instead
-                    of <span className={classes.body2Bold}>{result}</span>
-                  </Typography>
-                )}
+                <TextField
+                  id="standard-select-currency"
+                  select
+                  label="Select"
+                  value={from}
+                  onChange={handleChange("from")}
+                  className={classes.textField}
+                  helperText="Please select your currency"
+                  margin="normal"
+                >
+                  {currencies.map(option => (
+                    <MenuItem key={option.id} value={option.id}>
+                      {option.id} - {option.currencyName}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item className={classes.button}>
+                <IconButton
+                  className={classes.button}
+                  aria-label="Change"
+                  onClick={change}
+                >
+                  <ChangeIcon />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="standard-select-currency"
+                  select
+                  label="Select"
+                  value={to}
+                  onChange={handleChange("to")}
+                  className={classes.textField}
+                  helperText="Please select your currency"
+                  margin="normal"
+                >
+                  {currencies.map(option => (
+                    <MenuItem key={option.id} value={option.id}>
+                      {option.id} - {option.currencyName}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item className={classes.button}>
+                <IconButton
+                  className={classes.button}
+                  aria-label="Change"
+                  onClick={exchange}
+                >
+                  <ArrowIcon />
+                </IconButton>
               </Grid>
             </Grid>
-          </div>
-        </Fragment>
-      ) : null;
-    return (
-      <Fragment>
-        <Toast
-          message="Need to set both currencies"
-          type="error"
-          open={this.state.error}
-          handleClose={() => this.handleClose()}
-        />
-        <div className={classes.root}>
-          <AppBar position="static" color="default">
-            <Toolbar>
-              <Typography variant="h6" color="inherit">
-                How much do I get?
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <div className={classes.container}>
-            <Paper className={classes.paper} elevation={1}>
-              <Typography variant="h5" component="h3">
-                Let us help you figure out how much money you get from the
-                exchange point
-              </Typography>
-              <Grid container spacing={24}>
-                <Grid item>
-                  <TextField
-                    value={amount}
-                    id="standard-number"
-                    label="Amount"
-                    type="number"
-                    InputProps={{ inputProps: { min: 0.01 } }}
-                    onChange={this.handleChange("amount")}
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    margin="normal"
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    id="standard-select-currency"
-                    select
-                    label="Select"
-                    value={from}
-                    onChange={this.handleChange("from")}
-                    className={classes.textField}
-                    helperText="Please select your currency"
-                    margin="normal"
-                  >
-                    {currencies.map(option => (
-                      <MenuItem key={option.id} value={option.id}>
-                        {option.id} - {option.currencyName}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid>
-                <Grid item className={classes.button}>
-                  <IconButton
-                    className={classes.button}
-                    aria-label="Change"
-                    onClick={() => this.change()}
-                  >
-                    <ChangeIcon />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <TextField
-                    id="standard-select-currency"
-                    select
-                    label="Select"
-                    value={to}
-                    onChange={this.handleChange("to")}
-                    className={classes.textField}
-                    helperText="Please select your currency"
-                    margin="normal"
-                  >
-                    {currencies.map(option => (
-                      <MenuItem key={option.id} value={option.id}>
-                        {option.id} - {option.currencyName}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid>
-                <Grid item className={classes.button}>
-                  <IconButton
-                    className={classes.button}
-                    aria-label="Change"
-                    onClick={() => this.exchange()}
-                  >
-                    <ArrowIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
-              {risultato}
-            </Paper>
-          </div>
+            {risultato}
+          </Paper>
         </div>
-      </Fragment>
-    );
-  }
+      </div>
+    </Fragment>
+  );
 }
-export default withStyles(styles, { withTheme: true })(Converion);
+
+export default withStyles(styles, { withTheme: true })(Conversion);

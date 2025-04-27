@@ -240,7 +240,7 @@ function Converion(props) {
     if (from === "" || to === "") {
       setError(true);
     } else {
-      fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`)
+      fetch(`https://new.currency.api/convert?from=${from}&to=${to}&amount=${amount}`)
         .then(response => {
           if (response.ok) {
             return response.json();

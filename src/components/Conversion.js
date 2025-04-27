@@ -240,8 +240,7 @@ function Converion(props) {
     if (from === "" || to === "") {
       setError(true);
     } else {
-      let query = from + "_" + to;
-      fetch("https://free.currencyconverterapi.com/api/v6/convert?q=" + query)
+      fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`)
         .then(response => {
           if (response.ok) {
             return response.json();
@@ -249,10 +248,10 @@ function Converion(props) {
             throw new Error("Something went wrong");
           }
         })
-        .then(responseData => {
-          setResult(amount * responseData.results[query].val);
-          setConversion(responseData.results[query].val);
-          setSellrate(responseData.results[query].val);
+        .then(data => {
+          setResult(data.result);
+          setConversion(data.info.rate);
+          setSellrate(data.info.rate);
         })
         .catch(error => {
           // Optionally handle error state

@@ -4,8 +4,7 @@ import React, { Fragment, useState } from "react";
 // import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-// import Paper from "@material-ui/core/Paper";
+// import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 // import IconButton from "@material-ui/core/IconButton";
 import ChangeIcon from "@material-ui/icons/CompareArrows";
@@ -297,7 +296,7 @@ function Converion() {
           </Typography>
           <Grid container spacing={24} alignItems="center" justify="center">
             <Grid item>
-              <TextField
+              <input
                 value={sellrate}
                 id="standard-number"
                 label={"Sell rate of " + to + " to " + from}
@@ -356,7 +355,7 @@ function Converion() {
         </Typography>
         <Grid container spacing={24}>
           <Grid item>
-            <TextField
+            <input
               value={amount}
               id="standard-number"
               label="Amount"

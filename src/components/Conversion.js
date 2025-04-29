@@ -211,18 +211,40 @@ const currencies = [
 
 interface ConversionProps {}
 
+interface Styles {
+  paper: any;
+  container: any;
+  textField: any;
+  button: any;
+  body2Bold: any;
+  good: any;
+  acc: any;
+  bad: any;
+  margin: any;
+}
+
+interface ConversionState {
+  amount: number;
+  from: string;
+  to: string;
+  error: boolean;
+  result: number;
+  conversion: number;
+  sellrate: number;
+}
+
 const Converion: React.FC<ConversionProps> = (props) => {
-  const { classes } = props;
-  const [amount, setAmount] = useState(1);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [error, setError] = useState(false);
-  const [result, setResult] = useState(0);
-  const [conversion, setConversion] = useState(0);
-  const [sellrate, setSellrate] = useState(0);
+  const { classes } = props as WithStyles<Styles>;
+  const [amount, setAmount] = useState<number>(1);
+  const [from, setFrom] = useState<string>("");
+  const [to, setTo] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
+  const [result, setResult] = useState<number>(0);
+  const [conversion, setConversion] = useState<number>(0);
+  const [sellrate, setSellrate] = useState<number>(0);
 
   const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (name === "amount") setAmount(event.target.value);
+    if (name === "amount") setAmount(Number(event.target.value));
     if (name === "from") setFrom(event.target.value);
     if (name === "to") setTo(event.target.value);
     setResult(0);
@@ -235,7 +257,7 @@ const Converion: React.FC<ConversionProps> = (props) => {
   };
 
   const handleRate = () => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSellrate(event.target.value);
+    setSellrate(Number(event.target.value));
   };
 
   const exchange = () => {

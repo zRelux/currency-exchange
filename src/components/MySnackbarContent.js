@@ -53,8 +53,18 @@ interface MySnackbarContentProps {
   variant: "success" | "warning" | "error" | "info";
 }
 
+interface Styles {
+  success: any;
+  error: any;
+  info: any;
+  warning: any;
+  icon: any;
+  iconVariant: any;
+  message: any;
+}
+
 function MySnackbarContent(props: MySnackbarContentProps) {
-  const { classes, className, message, onClose, variant, ...other } = props;
+  const { classes, className, message, onClose, variant, ...other } = props as MySnackbarContentProps & WithStyles<Styles>;
   const Icon = variantIcon[variant];
 
   return (

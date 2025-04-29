@@ -13,43 +13,43 @@ import ArrowIcon from "@material-ui/icons/ArrowForward";
 import Toast from "./Toast";
 import { Button } from "@/components/ui/button"
 
-const styles = theme => ({
-  paper: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
-  },
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "calc(100vh - 64px)"
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  },
-  button: {
-    display: "flex",
-    justifyContent: "center"
-  },
-  body2Bold: {
-    fontWeight: "bold"
-  },
-  good: {
-    color: "green"
-  },
-  acc: {
-    color: "#828e24"
-  },
-  bad: {
-    color: "red"
-  },
-  margin: {
-    marginBottom: 24
-  }
-});
+// const styles = theme => ({
+//   paper: {
+//     ...theme.mixins.gutters(),
+//     paddingTop: theme.spacing.unit * 2,
+//     paddingBottom: theme.spacing.unit * 2
+//   },
+//   container: {
+//     display: "flex",
+//     justifyContent: "center",
+//     alignItems: "center",
+//     height: "calc(100vh - 64px)"
+//   },
+//   textField: {
+//     marginLeft: theme.spacing.unit,
+//     marginRight: theme.spacing.unit,
+//     width: 200
+//   },
+//   button: {
+//     display: "flex",
+//     justifyContent: "center"
+//   },
+//   body2Bold: {
+//     fontWeight: "bold"
+//   },
+//   good: {
+//     color: "green"
+//   },
+//   acc: {
+//     color: "#828e24"
+//   },
+//   bad: {
+//     color: "red"
+//   },
+//   margin: {
+//     marginBottom: 24
+//   }
+// });
 
 const currencies = [
   { currencyName: "British Pound", currencySymbol: "\u00a3", id: "GBP" },
@@ -210,8 +210,8 @@ const currencies = [
   { currencyName: "New Belarusian Ruble", currencySymbol: "p.", id: "BYN" }
 ];
 
-function Converion(props) {
-  const { classes } = props;
+function Converion() {
+  // const { classes } = props;
   const [amount, setAmount] = useState(1);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -278,11 +278,11 @@ function Converion(props) {
       <Fragment>
         <Typography variant="subtitle1" align="center">
           Current conversion for{" "}
-          <span className={classes.body2Bold}>
+          <span className={''}>
             {from} - {to}
           </span>{" "}
-          is <span className={classes.body2Bold}>{conversion}</span> so for{" "}
-          <span className={classes.body2Bold}>
+          is <span className={''}>{conversion}</span> so for{" "}
+          <span className={''}>
             {from} {amount} you get {to} {result}
           </span>
         </Typography>
@@ -291,7 +291,7 @@ function Converion(props) {
           <Typography
             variant="subtitle1"
             align="center"
-            className={classes.margin}
+            className={''}
           >
             if you want to check if sell rate is good enter here:
           </Typography>
@@ -304,28 +304,28 @@ function Converion(props) {
                 type="number"
                 InputProps={{ inputProps: { min: 0.01 } }}
                 onChange={handleRate()}
-                className={classes.textField}
+                className={''}
               />
             </Grid>
             <Grid item>
               {srate >= 0 && srate < 4 ? (
                 <Typography variant="subtitle1" align="center">
-                  <span className={classes.good}>{srate}%</span> you should
-                  get <span className={classes.body2Bold}>{money}</span>{" "}
+                  <span className={''}>{srate}%</span> you should
+                  get <span className={''}>{money}</span>{" "}
                   instead of{" "}
-                  <span className={classes.body2Bold}>{result}</span>
+                  <span className={''}>{result}</span>
                 </Typography>
               ) : srate >= 4 && srate < 10 ? (
                 <Typography variant="subtitle1" align="center">
-                  <span className={classes.acc}>{srate}%</span> you should get{" "}
-                  <span className={classes.body2Bold}>{money}</span> instead
-                  of <span className={classes.body2Bold}>{result}</span>
+                  <span className={''}>{srate}%</span> you should get{" "}
+                  <span className={''}>{money}</span> instead
+                  of <span className={''}>{result}</span>
                 </Typography>
               ) : (
                 <Typography variant="subtitle1" align="center">
-                  <span className={classes.bad}>{srate}%</span> you should get{" "}
-                  <span className={classes.body2Bold}>{money}</span> instead
-                  of <span className={classes.body2Bold}>{result}</span>
+                  <span className={''}>{srate}%</span> you should get{" "}
+                  <span className={''}>{money}</span> instead
+                  of <span className={''}>{result}</span>
                 </Typography>
               )}
             </Grid>
@@ -342,7 +342,7 @@ function Converion(props) {
         open={error}
         handleClose={handleClose}
       />
-      <div className={classes.root}>
+      <div className={''}>
         <AppBar position="static" color="default">
           <Toolbar>
             <Typography variant="h6" color="inherit">
@@ -350,8 +350,8 @@ function Converion(props) {
             </Typography>
           </Toolbar>
         </AppBar>
-        <div className={classes.container}>
-          <Paper className={classes.paper} elevation={1}>
+        <div className={''}>
+          <Paper className={''} elevation={1}>
             <Typography variant="h5" component="h3">
               Let us help you figure out how much money you get from the
               exchange point
@@ -365,7 +365,7 @@ function Converion(props) {
                   type="number"
                   InputProps={{ inputProps: { min: 0.01 } }}
                   onChange={handleChange("amount")}
-                  className={classes.textField}
+                  className={''}
                   InputLabelProps={{
                     shrink: true
                   }}
@@ -379,7 +379,7 @@ function Converion(props) {
                   label="Select"
                   value={from}
                   onChange={handleChange("from")}
-                  className={classes.textField}
+                  className={''}
                   helperText="Please select your currency"
                   margin="normal"
                 >
@@ -390,9 +390,9 @@ function Converion(props) {
                   ))}
                 </TextField>
               </Grid>
-              <Grid item className={classes.button}>
+              <Grid item className={''}>
                 <Button
-                  className={classes.button}
+                  className={''}
                   aria-label="Change"
                   onClick={change}
                 >
@@ -406,7 +406,7 @@ function Converion(props) {
                   label="Select"
                   value={to}
                   onChange={handleChange("to")}
-                  className={classes.textField}
+                  className={''}
                   helperText="Please select your currency"
                   margin="normal"
                 >
@@ -417,9 +417,9 @@ function Converion(props) {
                   ))}
                 </TextField>
               </Grid>
-              <Grid item className={classes.button}>
+              <Grid item className={''}>
                 <Button
-                  className={classes.button}
+                  className={''}
                   aria-label="Change"
                   onClick={exchange}
                 >
@@ -435,4 +435,4 @@ function Converion(props) {
   );
 }
 
-export default withStyles(styles, { withTheme: true })(Converion);
+export default Converion;

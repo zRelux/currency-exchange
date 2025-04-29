@@ -1,11 +1,18 @@
 import React, { Fragment } from "react";
 import MySnackbarContent from "./MySnackbarContent";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, WithStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 
-const styles = theme => ({});
+const styles = (theme: any) => ({});
 
-function Toast(props) {
+interface ToastProps {
+  open: boolean;
+  handleClose: () => void;
+  type: string;
+  message: string;
+}
+
+function Toast(props: ToastProps) {
   const { open, handleClose, type, message } = props;
   return (
     <Fragment>

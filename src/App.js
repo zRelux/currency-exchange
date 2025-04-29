@@ -18,7 +18,7 @@ const theme = createMuiTheme({
   }
 });
 
-function App() {
+function App(): JSX.Element {
   return (
     <Fragment>
       <CssBaseline />

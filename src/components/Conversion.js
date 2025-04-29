@@ -5,7 +5,7 @@ import React, { Fragment, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
+// import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 // import IconButton from "@material-ui/core/IconButton";
 import ChangeIcon from "@material-ui/icons/CompareArrows";
@@ -349,85 +349,83 @@ function Converion() {
           </Typography>
         </div>
       </div>
-      <div className={''}>
-        <Paper className={''} elevation={1}>
-          <Typography variant="h5" component="h3">
-            Let us help you figure out how much money you get from the
-            exchange point
-          </Typography>
-          <Grid container spacing={24}>
-            <Grid item>
-              <TextField
-                value={amount}
-                id="standard-number"
-                label="Amount"
-                type="number"
-                InputProps={{ inputProps: { min: 0.01 } }}
-                onChange={handleChange("amount")}
-                className={''}
-                InputLabelProps={{
-                  shrink: true
-                }}
-                margin="normal"
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="standard-select-currency"
-                select
-                label="Select"
-                value={from}
-                onChange={handleChange("from")}
-                className={''}
-                helperText="Please select your currency"
-                margin="normal"
-              >
-                {currencies.map(option => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.id} - {option.currencyName}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item className={''}>
-              <Button
-                className={''}
-                aria-label="Change"
-                onClick={change}
-              >
-                <ChangeIcon />
-              </Button>
-            </Grid>
-            <Grid item>
-              <TextField
-                id="standard-select-currency"
-                select
-                label="Select"
-                value={to}
-                onChange={handleChange("to")}
-                className={''}
-                helperText="Please select your currency"
-                margin="normal"
-              >
-                {currencies.map(option => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.id} - {option.currencyName}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item className={''}>
-              <Button
-                className={''}
-                aria-label="Change"
-                onClick={exchange}
-              >
-                <ArrowIcon />
-              </Button>
-            </Grid>
+      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <Typography variant="h5" component="h3">
+          Let us help you figure out how much money you get from the
+          exchange point
+        </Typography>
+        <Grid container spacing={24}>
+          <Grid item>
+            <TextField
+              value={amount}
+              id="standard-number"
+              label="Amount"
+              type="number"
+              InputProps={{ inputProps: { min: 0.01 } }}
+              onChange={handleChange("amount")}
+              className={''}
+              InputLabelProps={{
+                shrink: true
+              }}
+              margin="normal"
+            />
           </Grid>
-          {risultato}
-        </Paper>
+          <Grid item>
+            <TextField
+              id="standard-select-currency"
+              select
+              label="Select"
+              value={from}
+              onChange={handleChange("from")}
+              className={''}
+              helperText="Please select your currency"
+              margin="normal"
+            >
+              {currencies.map(option => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.id} - {option.currencyName}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item className={''}>
+            <Button
+              className={''}
+              aria-label="Change"
+              onClick={change}
+            >
+              <ChangeIcon />
+            </Button>
+          </Grid>
+          <Grid item>
+            <TextField
+              id="standard-select-currency"
+              select
+              label="Select"
+              value={to}
+              onChange={handleChange("to")}
+              className={''}
+              helperText="Please select your currency"
+              margin="normal"
+            >
+              {currencies.map(option => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.id} - {option.currencyName}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item className={''}>
+            <Button
+              className={''}
+              aria-label="Change"
+              onClick={exchange}
+            >
+              <ArrowIcon />
+            </Button>
+          </Grid>
+        </Grid>
+        {risultato}
       </div>
     </Fragment>
   );

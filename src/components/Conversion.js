@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, WithStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -50,7 +50,13 @@ const styles = theme => ({
   }
 });
 
-const currencies = [
+interface Currency {
+  currencyName: string;
+  currencySymbol?: string;
+  id: string;
+}
+
+const currencies: Currency[] = [
   { currencyName: "British Pound", currencySymbol: "\u00a3", id: "GBP" },
   { currencyName: "United States Dollar", currencySymbol: "$", id: "USD" },
   { currencyName: "Euro", currencySymbol: "\u20ac", id: "EUR" },
@@ -209,18 +215,32 @@ const currencies = [
   { currencyName: "New Belarusian Ruble", currencySymbol: "p.", id: "BYN" }
 ];
 
-function Converion(props) {
-  const { classes } = props;
-  const [amount, setAmount] = useState(1);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [error, setError] = useState(false);
-  const [result, setResult] = useState(0);
-  const [conversion, setConversion] = useState(0);
-  const [sellrate, setSellrate] = useState(0);
+interface Styles extends WithStyles<typeof styles> {}
 
-  const handleChange = name => event => {
-    if (name === "amount") setAmount(event.target.value);
+interface ConversionProps extends Styles {}
+
+interface ConversionState {
+  amount: number;
+  from: string;
+  to: string;
+  error: boolean;
+  result: number;
+  conversion: number;
+  sellrate: number;
+}
+
+function Converion(props: ConversionProps) {
+  const { classes } = props;
+  const [amount, setAmount] = useState<number>(1);
+  const [from, setFrom] = useState<string>("");
+  const [to, setTo] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
+  const [result, setResult] = useState<number>(0);
+  const [conversion, setConversion] = useState<number>(0);
+  const [sellrate, setSellrate] = useState<number>(0);
+
+  const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (name === "amount") setAmount(parseFloat(event.target.value));
     if (name === "from") setFrom(event.target.value);
     if (name === "to") setTo(event.target.value);
     setResult(0);
@@ -232,8 +252,8 @@ function Converion(props) {
     setResult(0);
   };
 
-  const handleRate = () => event => {
-    setSellrate(event.target.value);
+  const handleRate = () => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSellrate(parseFloat(event.target.value));
   };
 
   const exchange = () => {
@@ -261,7 +281,7 @@ function Converion(props) {
     }
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (event: any, reason: string) => {
     if (reason === "clickaway") {
       return;
     }

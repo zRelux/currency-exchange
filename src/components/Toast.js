@@ -12,6 +12,8 @@ interface ToastProps {
   message: string;
 }
 
+interface Styles {}
+
 function Toast(props: ToastProps) {
   const { open, handleClose, type, message } = props;
   return (

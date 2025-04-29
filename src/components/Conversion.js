@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { withStyles } from "@material-ui/core/styles";
+// import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -7,10 +7,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
+// import IconButton from "@material-ui/core/IconButton";
 import ChangeIcon from "@material-ui/icons/CompareArrows";
 import ArrowIcon from "@material-ui/icons/ArrowForward";
 import Toast from "./Toast";
+import { Button } from "@/components/ui/button"
 
 const styles = theme => ({
   paper: {
@@ -390,13 +391,13 @@ function Converion(props) {
                 </TextField>
               </Grid>
               <Grid item className={classes.button}>
-                <IconButton
+                <Button
                   className={classes.button}
                   aria-label="Change"
                   onClick={change}
                 >
                   <ChangeIcon />
-                </IconButton>
+                </Button>
               </Grid>
               <Grid item>
                 <TextField
@@ -417,13 +418,13 @@ function Converion(props) {
                 </TextField>
               </Grid>
               <Grid item className={classes.button}>
-                <IconButton
+                <Button
                   className={classes.button}
                   aria-label="Change"
                   onClick={exchange}
                 >
                   <ArrowIcon />
-                </IconButton>
+                </Button>
               </Grid>
             </Grid>
             {risultato}

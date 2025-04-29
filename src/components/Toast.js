@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import MySnackbarContent from "./MySnackbarContent";
+import MySnackbarContent from "./MySnackbarContent.js";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 

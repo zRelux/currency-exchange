@@ -370,9 +370,8 @@ function Converion() {
             />
           </Grid>
           <Grid item>
-            <TextField
+            <select
               id="standard-select-currency"
-              select
               label="Select"
               value={from}
               onChange={handleChange("from")}
@@ -385,7 +384,7 @@ function Converion() {
                   {option.id} - {option.currencyName}
                 </MenuItem>
               ))}
-            </TextField>
+            </select>
           </Grid>
           <Grid item className={''}>
             <Button
@@ -397,9 +396,8 @@ function Converion() {
             </Button>
           </Grid>
           <Grid item>
-            <TextField
+            <select
               id="standard-select-currency"
-              select
               label="Select"
               value={to}
               onChange={handleChange("to")}
@@ -412,7 +410,7 @@ function Converion() {
                   {option.id} - {option.currencyName}
                 </MenuItem>
               ))}
-            </TextField>
+            </select>
           </Grid>
           <Grid item className={''}>
             <Button

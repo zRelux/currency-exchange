@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import React, { Fragment, useState, useEffect } from "react";
+import { withStyles, WithStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -12,7 +12,7 @@ import ChangeIcon from "@material-ui/icons/CompareArrows";
 import ArrowIcon from "@material-ui/icons/ArrowForward";
 import Toast from "./Toast";
 
-const styles = theme => ({
+const styles = (theme: any) => ({
   paper: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
@@ -209,7 +209,9 @@ const currencies = [
   { currencyName: "New Belarusian Ruble", currencySymbol: "p.", id: "BYN" }
 ];
 
-function Converion(props) {
+interface ConversionProps {}
+
+const Converion: React.FC<ConversionProps> = (props) => {
   const { classes } = props;
   const [amount, setAmount] = useState(1);
   const [from, setFrom] = useState("");
@@ -219,7 +221,7 @@ function Converion(props) {
   const [conversion, setConversion] = useState(0);
   const [sellrate, setSellrate] = useState(0);
 
-  const handleChange = name => event => {
+  const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     if (name === "amount") setAmount(event.target.value);
     if (name === "from") setFrom(event.target.value);
     if (name === "to") setTo(event.target.value);
@@ -232,7 +234,7 @@ function Converion(props) {
     setResult(0);
   };
 
-  const handleRate = () => event => {
+  const handleRate = () => (event: React.ChangeEvent<HTMLInputElement>) => {
     setSellrate(event.target.value);
   };
 
@@ -261,7 +263,7 @@ function Converion(props) {
     }
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
       return;
     }
@@ -272,66 +274,65 @@ function Converion(props) {
   srate = Math.floor(srate * 100) / 100;
   let money = amount * sellrate;
 
-  let risultato =
-    result !== 0 ? (
-      <Fragment>
-        <Typography variant="subtitle1" align="center">
-          Current conversion for{" "}
-          <span className={classes.body2Bold}>
-            {from} - {to}
-          </span>{" "}
-          is <span className={classes.body2Bold}>{conversion}</span> so for{" "}
-          <span className={classes.body2Bold}>
-            {from} {amount} you get {to} {result}
-          </span>
-        </Typography>
+  let risultato = result !== 0 ? (
+    <Fragment>
+      <Typography variant="subtitle1" align="center">
+        Current conversion for{" "}
+        <span className={classes.body2Bold}>
+          {from} - {to}
+        </span>{" "}
+        is <span className={classes.body2Bold}>{conversion}</span> so for{" "}
+        <span className={classes.body2Bold}>
+          {from} {amount} you get {to} {result}
+        </span>
+      </Typography>
 
-        <div>
-          <Typography
-            variant="subtitle1"
-            align="center"
-            className={classes.margin}
-          >
-            if you want to check if sell rate is good enter here:
-          </Typography>
-          <Grid container spacing={24} alignItems="center" justify="center">
-            <Grid item>
-              <TextField
-                value={sellrate}
-                id="standard-number"
-                label={"Sell rate of " + to + " to " + from}
-                type="number"
-                InputProps={{ inputProps: { min: 0.01 } }}
-                onChange={handleRate()}
-                className={classes.textField}
-              />
-            </Grid>
-            <Grid item>
-              {srate >= 0 && srate < 4 ? (
-                <Typography variant="subtitle1" align="center">
-                  <span className={classes.good}>{srate}%</span> you should
-                  get <span className={classes.body2Bold}>{money}</span>{" "}
-                  instead of{" "}
-                  <span className={classes.body2Bold}>{result}</span>
-                </Typography>
-              ) : srate >= 4 && srate < 10 ? (
-                <Typography variant="subtitle1" align="center">
-                  <span className={classes.acc}>{srate}%</span> you should get{" "}
-                  <span className={classes.body2Bold}>{money}</span> instead
-                  of <span className={classes.body2Bold}>{result}</span>
-                </Typography>
-              ) : (
-                <Typography variant="subtitle1" align="center">
-                  <span className={classes.bad}>{srate}%</span> you should get{" "}
-                  <span className={classes.body2Bold}>{money}</span> instead
-                  of <span className={classes.body2Bold}>{result}</span>
-                </Typography>
-              )}
-            </Grid>
+      <div>
+        <Typography
+          variant="subtitle1"
+          align="center"
+          className={classes.margin}
+        >
+          if you want to check if sell rate is good enter here:
+        </Typography>
+        <Grid container spacing={24} alignItems="center" justify="center">
+          <Grid item>
+            <TextField
+              value={sellrate}
+              id="standard-number"
+              label={"Sell rate of " + to + " to " + from}
+              type="number"
+              InputProps={{ inputProps: { min: 0.01 } }}
+              onChange={handleRate()}
+              className={classes.textField}
+            />
           </Grid>
-        </div>
-      </Fragment>
-    ) : null;
+          <Grid item>
+            {srate >= 0 && srate < 4 ? (
+              <Typography variant="subtitle1" align="center">
+                <span className={classes.good}>{srate}%</span> you should
+                get <span className={classes.body2Bold}>{money}</span>{" "}
+                instead of{" "}
+                <span className={classes.body2Bold}>{result}</span>
+              </Typography>
+            ) : srate >= 4 && srate < 10 ? (
+              <Typography variant="subtitle1" align="center">
+                <span className={classes.acc}>{srate}%</span> you should get{" "}
+                <span className={classes.body2Bold}>{money}</span> instead
+                of <span className={classes.body2Bold}>{result}</span>
+              </Typography>
+            ) : (
+              <Typography variant="subtitle1" align="center">
+                <span className={classes.bad}>{srate}%</span> you should get{" "}
+                <span className={classes.body2Bold}>{money}</span> instead
+                of <span className={classes.body2Bold}>{result}</span>
+              </Typography>
+            )}
+          </Grid>
+        </Grid>
+      </div>
+    </Fragment>
+  ) : null;
 
   return (
     <Fragment>
